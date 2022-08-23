@@ -27,7 +27,6 @@ public class PlanSeviceImpl implements PlanSevice{
 	public Map<Integer, String> getPlanCategories() {
 		List<PlanCategory> categoryList=planCategoryRepo.findAll();
 		Map<Integer,String> map=new HashMap<>();
-
 		categoryList.forEach(cat -> {
 			map.put(cat.getCategoryId(),cat.getCategoryName());
 			
@@ -38,7 +37,6 @@ public class PlanSeviceImpl implements PlanSevice{
 
 	@Override
 	public boolean save(Plan plan) {
-		// TODO Auto-generated method stub
 		Plan plan1=planRepo.save(plan);
 		return plan1.getPlanId()!=null;
 	}
@@ -55,7 +53,7 @@ public class PlanSeviceImpl implements PlanSevice{
 	@Override
 	public boolean update(Plan plan) {
 		Plan plan1=planRepo.save(plan);
-		return plan.getPlanId()!=null;
+		return plan1.getPlanId()!=null;
 	}
 
 	@Override
@@ -67,14 +65,14 @@ public class PlanSeviceImpl implements PlanSevice{
 		}catch(Exception ex) {
 			ex.printStackTrace();			
 		}
-		return false;
+		return status;
 	}
 
 	@Override
 	public boolean planStatusChange(Integer Id, String activeSw) {
 		Optional<Plan> findBy=planRepo.findById(Id);
 		if(findBy.isPresent()) {
-			Plan plan=new Plan();
+			Plan plan=findBy.get();
 			plan.setActiveSw(activeSw);
 			planRepo.save(plan);
 			return true;
